@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  todo-app-redis:
+    build: .
+    ports:
+      - 80:80
+    volumes:
+      - ~/java/presentation/todo-app-redis:/app/todo-app-redis
+      - /usr/src/app/target
+    networks:
+      - todo-app-redis-network
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+    hostname: redis
+    volumes:
+      - ~/java/db/redis:/data
+    ports:
+      - 6387:6379
+    networks:
+          - todo-app-redis-network
+
+networks:
+  todo-app-redis-network:
